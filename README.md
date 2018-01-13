@@ -26,14 +26,19 @@ So ChessGame Model must have a :user_id and a :w_player and :b_player field
 
 >* User can save query scopes? (Like if I upload games of my opponent and want to query those as a group)
 
-## Queries:
+## Assumptions
+A sequence of moves where players each lose a piece of equal value (Bishops equaling Knights) within 3 moves is considered a "trade".
 
+For example:
+* a single move queen trade: Qxd8 Kxd8
+* a recapture with a check intermezzo: Qxd8 Bxh2+ (checking the castled white king with a sac) Kh1 (white king steps out of check) Kxd8
+
+## Queries:
   >* what are the win-draw-loss results?  
 
   >* what are my piece trade outcomes? (I capture Rooks/queen with knight, bishops, what do I lose?)  
 
   >* what positions occur the most (by move n)? 
-
   
 ```rb
 [
