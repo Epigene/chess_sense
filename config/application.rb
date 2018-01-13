@@ -17,5 +17,26 @@ module ChessSense
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.generators do |g|
+      g.test_framework :rspec
+      g.fixture_replacement :factory_girl, dir: "spec/factories"
+      g.template_engine = false
+      g.assets = false
+      g.helper = false
+    end
+
+    config.time_zone = 'Riga'
+
+    config.filter_parameters += [:password]
+
+    config.autoload_paths += %W(#{config.root}/app/controllers/**/*.rb)
+    config.autoload_paths += %W(#{config.root}/app/models/**/*.rb)
+    config.autoload_paths += %W(#{config.root}/app/services/**/*.rb)
+
+    config.i18n.fallbacks = false
+    config.i18n.available_locales = [:en]
+    config.i18n.default_locale = :en
+    config.i18n.load_path += Dir["#{Rails.root}/config/locales/**/*.yml"]
   end
 end

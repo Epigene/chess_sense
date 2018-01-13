@@ -15,36 +15,42 @@ Production runs two processes - Puma webserver and Sidekiq worker, so make sure 
 Currently the app is hosted on Heroku @ TODO.
 
 ## What this does
-User has a DB of games, not necessarily played by themselves
-  So ChessGame Model must have a :user_id and a :w_player and :b_player field
+>* User has a DB of games, not necessarily played by themselves  
+So ChessGame Model must have a :user_id and a :w_player and :b_player field
 
-ChessGame has :played_on field that gets populated from tags or if no tags default to upload date
+>* ChessGame has :played_on field that gets populated from tags or if no tags default to upload date
 
-User specifies the names of games which identify their games
-TODO: How to identify repeat games? Moves can be the same, TAGS only, if applicable. 
+>* User specifies the names of games which identify their games  
+  TODO: How to identify repeat games? Moves can be the same, TAGS only, if applicable.   
   Default to games with the same moves being different, but if TAGs match, then its repeat and do not import
 
-User can save query scopes? (Like if I upload games of my opponent and want to query those as a group)
+>* User can save query scopes? (Like if I upload games of my opponent and want to query those as a group)
 
-Queries:
-  > what are the win-draw-loss results?
-  > what are my piece trade outcomes? (I capture Rooks/queen with knigt, bishops, what do I lose?)
-  > what positions occur the most? 
+## Queries:
+
+  >* what are the win-draw-loss results?  
+
+  >* what are my piece trade outcomes? (I capture Rooks/queen with knight, bishops, what do I lose?)  
+
+  >* what positions occur the most (by move n)? 
+
   
-  [
-    :of_all_games_in_my_db
-    :of_all_games_i_have_played,
-   
-    Where(
-      :i_play_as_<side>, <player>_plays_as_<side>,
-      moves [<opening or moveset regex>] are played,
-      <player_or_I>_initiate queen trade, Opponent_initiates queen trade
-      <player_or_I>_trade for a better piece, Opponent wins a better piece from me,
-      <player_or_I>_win, <player_or_I>_lose,  It's a draw
-      :played_recently, :played_on_dates_in_<range>
-    ), 
-    Select(
-      last_<n>_games,
-      last_<n>_percent_of_such_games
-    )
-  ]
+```rb
+[
+  where(
+    <player>_plays_as_<side>,
+    moves [<opening or moveset regex>] are played,
+    <player_or_I>_initiate queen trade, Opponent_initiates queen trade
+    <player_or_I>_trade for a better piece, Opponent wins a better piece from me,
+    <player_or_I>_win, <player_or_I>_lose,  It's a draw
+    :played_on_dates_in_<range>
+  ), 
+  select(
+    last_<n>_games_of_matching_games,
+    last_<n>_percent_of_matching_games
+  )
+]
+```
+
+  
+

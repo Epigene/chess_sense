@@ -26,13 +26,15 @@ group :production do
 end
 
 group :development do
-  gem 'better_errors', '~> 2.1.1' # nodrošina detalizētākus error paziņojumus
   gem 'listen', '>= 3.0.5', '< 3.2', require: false # yuck
   gem 'spring', '~> 2.0.2', require: false
   gem 'annotate', '~> 2.7.2', require: false
 end
 
 group :development, :test do
+  gem 'better_errors', '~> 2.1.1' # nodrošina detalizētākus error paziņojumus
+  gem 'rspec-rails', '~> 3.7.0'
+  gem 'spring-commands-rspec', '~> 1.0.4', require: false # Spring for rspec ^
   gem 'dotenv-rails', '~> 2.2.1' # .env file support
   gem 'pry-rails', '~> 0.3.6'
   gem 'awesome_print', '~> 1.8.0'
@@ -40,8 +42,6 @@ end
 
 group :test do
   gem 'simplecov', '~> 0.14.1'
-  gem 'rspec-rails', '~> 3.7.0', require: false
-  gem 'spring-commands-rspec', '~> 1.0.4', require: false # Spring for rspec ^
   gem 'rails-controller-testing', '~> 1.0.2'
   gem 'factory_bot', '~> 4.8.2', require: false
   gem 'timecop', '~> 0.8.1', require: false
