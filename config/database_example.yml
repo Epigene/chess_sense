@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: chess_sense_development
+
+test:
+  <<: *default
+  database: chess_sense_test
+
+production:
+  <<: *default
+  database: chess_sense_production
+  username: chess_sense  
