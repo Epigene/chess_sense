@@ -1,5 +1,5 @@
 # Chess Sense
-A Rails app for storing your chess game database and analysing games with powerful statistical tools.
+A Rails app for maintaining your chess game database and gleaning insights with powerful statistical analysis.
 
 ## Installation
 1. Consult the gemfile for Ruby and bundler versions, install those.
