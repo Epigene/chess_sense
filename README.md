@@ -2,7 +2,7 @@
 A Rails app for maintaining your chess game database and gleaning insights with powerful statistical analysis.
 
 ## Installation
-1. Consult the gemfile for Ruby and bundler versions, install those.
+1. Consult `Gemfile` for Ruby and bundler versions, install those.
 2. Depends on PostgreSQL v10+, install it.
 3. Create a `database.yml` from the `database_example.yml`
 4. Bundle

@@ -12,9 +12,8 @@ require 'rspec/rails'
 require 'timecop'
 require 'pry'
 
-# load factories from CS
-require 'factory_girl'
-FactoryGirl.find_definitions
+require 'factory_bot'
+FactoryBot.find_definitions
 
 require 'database_cleaner'
 

@@ -1,0 +1,2 @@
+class PositionTransition < ApplicationRecord
+end

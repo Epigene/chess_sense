@@ -1,0 +1,21 @@
+common: &default_settings
+  # Required license key associated with your New Relic account.
+  license_key: <%= ENV["NEWRELIC_KEY"] %> 
+
+  app_name: ChessSense  
+
+  # Logging level for log/newrelic_agent.log
+  log_level: info
+
+development:
+  <<: *default_settings    
+  agent_enabled: false
+  monitor_mode: false
+
+test:
+  <<: *default_settings
+  agent_enabled: false  
+  monitor_mode: false
+
+production:
+  <<: *default_settings

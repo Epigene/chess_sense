@@ -4,22 +4,18 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.0'
 
 gem 'rails', '~> 5.2.0.beta2'
-gem 'pg', '~> 0.18'
+gem 'bootsnap', '>= 1.1.0', require: false
+gem 'pg', '~> 0.21' # 1.0.0 not supported by AR yet
 gem 'puma', '~> 3.11'
 
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer', platforms: :ruby
-
 gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
+gem 'bcrypt', '~> 3.1.7'
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'egd', '>= 1.0.1'#, path: "local/egd"
+gem 'jsonb_accessor', '~> 1.0.0'
 
 group :production do
   gem 'newrelic_rpm', '~> 4.2.0.334'
@@ -28,7 +24,7 @@ end
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2', require: false # yuck
   gem 'spring', '~> 2.0.2', require: false
-  gem 'annotate', '~> 2.7.2', require: false
+  gem 'annotate', '~> 2.7.2'#, require: false
 end
 
 group :development, :test do
