@@ -12,8 +12,8 @@ require 'rspec/rails'
 require 'timecop'
 require 'pry'
 
-require 'factory_bot'
-FactoryBot.find_definitions
+# require 'factory_bot'
+# FactoryBot.find_definitions
 
 require 'database_cleaner'
 

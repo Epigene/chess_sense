@@ -2,15 +2,23 @@ class User < ApplicationRecord
   has_secure_password
 
   jsonb_accessor :data,
-    title: [:string, default: "Untitled"],
-    previous_titles: [:string, array: true, default: []]
+    chess_aliases: [:string, array: true, default: []]
 
   has_many :chess_games, dependent: :destroy
   has_many :game_position_transitions, through: :chess_games
   has_many :position_transitions, through: :game_position_transitions
 
-  validates :password, format: { with: /\A\S{8,128}\z/, allow_nil: true, message: :weak_password }
+  validates :email, presence: true, format: {
+    with: %r'\A[^@]+@[^@]+\.[^@]+\z'i, allow_nil: false
+  }
 
+  validates :password_digest, presence: true
+
+  validates :name, presence: true, format: {
+    with: %r'\A\S+(\s+\S+)*\z'i, allow_nil: false
+  }
+
+  validates :data, presence: true
 end
 
 # == Schema Information

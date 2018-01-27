@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_01_13_160911) do
+ActiveRecord::Schema.define(version: 2018_01_27_115903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -34,6 +34,64 @@ ActiveRecord::Schema.define(version: 2018_01_13_160911) do
     t.index ["user_id"], name: "index_chess_games_on_user_id"
     t.index ["white"], name: "index_chess_games_on_white"
     t.index ["winner"], name: "index_chess_games_on_winner"
+  end
+
+  create_table "game_position_transitions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "chess_game_id", null: false
+    t.integer "position_transition_id", null: false
+    t.integer "order", default: 1, null: false
+    t.index ["chess_game_id"], name: "index_game_position_transitions_on_chess_game_id"
+    t.index ["created_at"], name: "index_game_position_transitions_on_created_at"
+    t.index ["order"], name: "index_game_position_transitions_on_order"
+    t.index ["position_transition_id"], name: "index_game_position_transitions_on_position_transition_id"
+  end
+
+  create_table "moves", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "player", default: 0, null: false
+    t.text "san", default: "", null: false
+    t.text "lran", default: "", null: false
+    t.text "from_square", default: "", null: false
+    t.text "to_square", default: "", null: false
+    t.integer "piece", default: 0, null: false
+    t.integer "move_type", default: 0, null: false
+    t.integer "captured_piece"
+    t.integer "promotion"
+    t.index ["captured_piece"], name: "index_moves_on_captured_piece"
+    t.index ["created_at"], name: "index_moves_on_created_at"
+    t.index ["from_square"], name: "index_moves_on_from_square"
+    t.index ["lran"], name: "index_moves_on_lran"
+    t.index ["move_type"], name: "index_moves_on_move_type"
+    t.index ["piece"], name: "index_moves_on_piece"
+    t.index ["player"], name: "index_moves_on_player"
+    t.index ["promotion"], name: "index_moves_on_promotion"
+    t.index ["san"], name: "index_moves_on_san"
+    t.index ["to_square"], name: "index_moves_on_to_square"
+  end
+
+  create_table "position_transitions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "start_position_id", null: false
+    t.integer "move_id", null: false
+    t.integer "end_position_id", null: false
+    t.index ["created_at"], name: "index_position_transitions_on_created_at"
+    t.index ["end_position_id"], name: "index_position_transitions_on_end_position_id"
+    t.index ["move_id"], name: "index_position_transitions_on_move_id"
+    t.index ["start_position_id"], name: "index_position_transitions_on_start_position_id"
+  end
+
+  create_table "positions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "fen", null: false
+    t.jsonb "features", default: {}, null: false
+    t.index ["created_at"], name: "index_positions_on_created_at"
+    t.index ["features"], name: "index_positions_on_features", using: :gin
+    t.index ["fen"], name: "index_positions_on_fen"
   end
 
   create_table "users", force: :cascade do |t|

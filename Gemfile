@@ -30,6 +30,8 @@ end
 group :development, :test do
   gem 'better_errors', '~> 2.1.1' # nodrošina detalizētākus error paziņojumus
   gem 'rspec-rails', '~> 3.7.0'
+  #gem 'factory_bot', '~> 4.8.2'
+  gem 'factory_bot_rails'
   gem 'spring-commands-rspec', '~> 1.0.4', require: false # Spring for rspec ^
   gem 'dotenv-rails', '~> 2.2.1' # .env file support
   gem 'pry-rails', '~> 0.3.6'
@@ -39,7 +41,6 @@ end
 group :test do
   gem 'simplecov', '~> 0.14.1'
   gem 'rails-controller-testing', '~> 1.0.2'
-  gem 'factory_bot', '~> 4.8.2', require: false
   gem 'timecop', '~> 0.8.1', require: false
   gem 'database_cleaner', '~> 1.6.1', require: false
 end

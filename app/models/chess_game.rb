@@ -1,4 +1,9 @@
 class ChessGame < ApplicationRecord
+  belongs_to :user
+  has_many :position_transitions
+
+  validates :user_id, :played_on, presence: true
+  validates :white, :black, :pgn ,:tags, presence: true
 
   scope :with_queen_trade, -> { TODO }
 
