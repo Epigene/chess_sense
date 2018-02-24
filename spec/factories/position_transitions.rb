@@ -21,4 +21,5 @@ end
 #  index_position_transitions_on_end_position_id    (end_position_id)
 #  index_position_transitions_on_move_id            (move_id)
 #  index_position_transitions_on_start_position_id  (start_position_id)
+#  pt_uniqueness_index                              (start_position_id,move_id,end_position_id) UNIQUE
 #

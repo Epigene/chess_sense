@@ -33,4 +33,5 @@ end
 #  index_moves_on_promotion       (promotion)
 #  index_moves_on_san             (san)
 #  index_moves_on_to_square       (to_square)
+#  moves_uniqueness_index         (lran,player) UNIQUE
 #

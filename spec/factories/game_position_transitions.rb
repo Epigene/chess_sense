@@ -17,6 +17,7 @@ end
 #
 # Indexes
 #
+#  gpt_uniqueness_index                                       (chess_game_id,position_transition_id,order) UNIQUE
 #  index_game_position_transitions_on_chess_game_id           (chess_game_id)
 #  index_game_position_transitions_on_created_at              (created_at)
 #  index_game_position_transitions_on_order                   (order)

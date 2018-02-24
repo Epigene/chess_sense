@@ -14,6 +14,10 @@ class CreateMoves < ActiveRecord::Migration[5.2]
       t.integer :promotion
     end
 
+    add_index(
+      :moves, [:lran, :player], unique: true, name: "moves_uniqueness_index"
+    )
+
     add_index(:moves, :created_at)
     add_index(:moves, :player)
     add_index(:moves, :san)

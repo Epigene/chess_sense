@@ -10,7 +10,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
     end
 
     add_index(:users, :created_at)
-    add_index(:users, :email)
+    add_index(:users, :email, unique: true)
     add_index(:users, :name)
   end
 end

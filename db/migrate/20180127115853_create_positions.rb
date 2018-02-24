@@ -8,7 +8,7 @@ class CreatePositions < ActiveRecord::Migration[5.2]
     end
 
     add_index(:positions, :created_at)
-    add_index(:positions, :fen)
+    add_index(:positions, :fen, unique: true)
     add_index(:positions, :features, using: :gin)
   end
 end

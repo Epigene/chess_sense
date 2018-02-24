@@ -8,6 +8,14 @@ class CreateGamePositionTransitions < ActiveRecord::Migration[5.2]
       t.integer :order, null: false, default: 1
     end
 
+    # uniqueness index
+    add_index(
+      :game_position_transitions,
+      [:chess_game_id, :position_transition_id, :order],
+      unique: true,
+      name: "gpt_uniqueness_index"
+    )
+
     add_index(:game_position_transitions, :created_at)
     add_index(:game_position_transitions, :chess_game_id)
     add_index(:game_position_transitions, :position_transition_id)

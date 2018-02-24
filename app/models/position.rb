@@ -29,5 +29,5 @@ end
 #
 #  index_positions_on_created_at  (created_at)
 #  index_positions_on_features    (features)
-#  index_positions_on_fen         (fen)
+#  index_positions_on_fen         (fen) UNIQUE
 #

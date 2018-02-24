@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2018_01_27_115903) do
     t.integer "chess_game_id", null: false
     t.integer "position_transition_id", null: false
     t.integer "order", default: 1, null: false
+    t.index ["chess_game_id", "position_transition_id", "order"], name: "gpt_uniqueness_index", unique: true
     t.index ["chess_game_id"], name: "index_game_position_transitions_on_chess_game_id"
     t.index ["created_at"], name: "index_game_position_transitions_on_created_at"
     t.index ["order"], name: "index_game_position_transitions_on_order"
@@ -63,6 +64,7 @@ ActiveRecord::Schema.define(version: 2018_01_27_115903) do
     t.index ["captured_piece"], name: "index_moves_on_captured_piece"
     t.index ["created_at"], name: "index_moves_on_created_at"
     t.index ["from_square"], name: "index_moves_on_from_square"
+    t.index ["lran", "player"], name: "moves_uniqueness_index", unique: true
     t.index ["lran"], name: "index_moves_on_lran"
     t.index ["move_type"], name: "index_moves_on_move_type"
     t.index ["piece"], name: "index_moves_on_piece"
@@ -81,6 +83,7 @@ ActiveRecord::Schema.define(version: 2018_01_27_115903) do
     t.index ["created_at"], name: "index_position_transitions_on_created_at"
     t.index ["end_position_id"], name: "index_position_transitions_on_end_position_id"
     t.index ["move_id"], name: "index_position_transitions_on_move_id"
+    t.index ["start_position_id", "move_id", "end_position_id"], name: "pt_uniqueness_index", unique: true
     t.index ["start_position_id"], name: "index_position_transitions_on_start_position_id"
   end
 
@@ -91,7 +94,7 @@ ActiveRecord::Schema.define(version: 2018_01_27_115903) do
     t.jsonb "features", default: {}, null: false
     t.index ["created_at"], name: "index_positions_on_created_at"
     t.index ["features"], name: "index_positions_on_features", using: :gin
-    t.index ["fen"], name: "index_positions_on_fen"
+    t.index ["fen"], name: "index_positions_on_fen", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -102,7 +105,7 @@ ActiveRecord::Schema.define(version: 2018_01_27_115903) do
     t.text "name", null: false
     t.jsonb "data", default: {}, null: false
     t.index ["created_at"], name: "index_users_on_created_at"
-    t.index ["email"], name: "index_users_on_email"
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name"
   end
 
