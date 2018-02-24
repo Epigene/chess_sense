@@ -3,6 +3,6 @@ class User::SenseController < ApplicationController
 
   # GET user_sense_path | user_sense
   def show
-
+    render template: "user/sense/show"
   end
 end

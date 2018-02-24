@@ -1,9 +1,11 @@
 module NeedsAuthenticatedUser
-  #included do
-    #helper_method :current_user, :verify_authenticated_user
+  extend ActiveSupport::Concern
 
-    #before_action :verify_authenticated_user
-  #end
+  included do
+    helper_method :current_user, :verify_authenticated_user
+
+    before_action :verify_authenticated_user
+  end
 
   def current_user
     return @current_user if defined?(@current_user)

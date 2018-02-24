@@ -26,9 +26,7 @@ RSpec.describe SessionController, type: :controller do
   describe "GET :new" do
     subject(:make_request) { get :new }
 
-    before do
-      allow(controller).to receive(:render)
-    end
+    before { allow_render }
 
     context "when requested without user in session" do
       it "renders the login form" do
@@ -42,9 +40,7 @@ RSpec.describe SessionController, type: :controller do
     end
 
     context "when requested with user already in session" do
-      let(:user) { create(:user) }
-
-      before { session[:user_id] = user.id }
+      before { log_in_user }
 
       it "redirects to sense view" do
         make_request
@@ -73,7 +69,7 @@ RSpec.describe SessionController, type: :controller do
     context "when submitted an invalid email and password combo" do
       let(:params) { {login: {email: "", password: ""}} }
 
-      before { allow(controller).to receive(:render) }
+      before { allow_render }
 
       it "renders :new with a validation error" do
         expect(controller).to(
@@ -88,9 +84,7 @@ RSpec.describe SessionController, type: :controller do
   describe "DELETE :destroy" do
     subject(:make_request) { delete :destroy }
 
-    let(:user) { create(:user) }
-
-    before { session[:user_id] = user.id }
+    let!(:user) { log_in_user }
 
     it "removes any :user_id from session, logging user out, redirects to root" do
       expect{ make_request }.to(

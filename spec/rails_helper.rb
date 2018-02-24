@@ -24,6 +24,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |file| require file }
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include GeneralHelpers
+  config.include ControllerHelpers, type: :controller
 
   # Database cleaner setup
   config.before(:suite) do
