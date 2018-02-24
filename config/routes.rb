@@ -1,3 +1,11 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root to: "session#new"
+  post "login", to: "session#create", as: :login
+  delete "logout", to: "session#destroy", as: :logout
+
+  namespace :user do
+    resource :sense, controller: 'sense', only: :show
+    resource :profile, controller: 'profile', only: [:show, :update]
+    resources :chess_games, only: [:index, :show]
+  end
 end

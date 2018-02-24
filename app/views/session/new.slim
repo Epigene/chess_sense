@@ -1,0 +1,11 @@
+/ :login
+h1 Session#new
+
+- if login.errors.any?
+  p
+    = login.errors.messages[:base].first
+
+= simple_form_for login, url: login_path, method: :post  do |f|
+  = f.text_field :email, input_html: { value: nil }
+  = f.text_field :password, input_html: { value: nil }
+  = f.button :submit

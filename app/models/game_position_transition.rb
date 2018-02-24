@@ -1,6 +1,6 @@
 class GamePositionTransition < ApplicationRecord
   belongs_to :chess_game
-  belongs_to :user, through: :chess_game
+  has_one    :user, through: :chess_game
   belongs_to :position_transition
 
   validates :chess_game_id, :position_transition_id, :order, presence: true

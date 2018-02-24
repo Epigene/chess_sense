@@ -1,7 +1,7 @@
 class PositionTransition < ApplicationRecord
-  belongs_to :start_position, class: "Position"
+  belongs_to :start_position, class_name: "Position"
   belongs_to :move
-  belongs_to :end_position, class: "Position"
+  belongs_to :end_position, class_name: "Position"
 
   validates :start_position_id, :move_id, :end_position_id, presence: true
 end

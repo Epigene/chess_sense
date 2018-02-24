@@ -19,7 +19,7 @@ require 'database_cleaner'
 
 ActiveRecord::Migration.maintain_test_schema!
 
-Dir[Rails.root.join('spec/support/helpers/**/*.rb')].each { |file| require file }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |file| require file }
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
