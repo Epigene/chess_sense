@@ -1,10 +1,26 @@
 # spring rspec spec/controllers/user/chess_games_controller_spec.rb
 RSpec.describe User::ChessGamesController, type: :controller do
+  include ChessHelpers
+
   describe "routing" do
     it 'routes GET /user/chess_games' do
       expect(get: '/user/chess_games').to route_to(
         controller: 'user/chess_games',
         action: 'index',
+      )
+    end
+
+    it 'routes GET /user/chess_games/new' do
+      expect(get: '/user/chess_games/new').to route_to(
+        controller: 'user/chess_games',
+        action: 'new',
+      )
+    end
+
+    it 'routes POST /user/chess_games' do
+      expect(post: '/user/chess_games').to route_to(
+        controller: 'user/chess_games',
+        action: 'create',
       )
     end
 
@@ -28,6 +44,57 @@ RSpec.describe User::ChessGamesController, type: :controller do
       )
 
       make_request
+    end
+  end
+
+  describe "GET :new" do
+    subject(:make_request) { get :new }
+
+    before { allow_render; log_in_user }
+
+    it "renders the game upload form view" do
+      allow(controller).to(
+        receive(:render).with(
+          template: "user/chess_games/new"
+        ).once
+      )
+
+      make_request
+    end
+  end
+
+  describe "POST :create" do
+    subject(:make_request) { post :create, params: params }
+
+    context "when requested with a legit submit" do
+      let(:params) { {chess_game: {pgn_lines: valid_pgn_upload}} }
+
+      it "calls upload handler and redirects to game index with notice flash" do
+        expect(uploader).to receive(:call)
+
+        make_request
+
+        expect(response.location).to match(%r'/user/chess_games')
+
+        expect(flash[:notice]).to be_present
+      end
+    end
+
+    context "when requested with invalid params" do
+      let(:params) { {chess_game: {pgn_lines: ""}} }
+
+      before { allow_render }
+
+      it "render upload form again with :alert flash about fail" do
+        expect(controller).to(
+          receive(:render).with(template: "user/chess_games/new").once
+        )
+
+        make_request
+
+        expect(flash[:data]).to be_present
+        expect(flash[:alert]).to be_present
+      end
     end
   end
 

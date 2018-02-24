@@ -1,35 +1,46 @@
-example_id                                                      | status  | run_time        |
---------------------------------------------------------------- | ------- | --------------- |
-./spec/controllers/session_controller_spec.rb[1:1:1]            | passed  | 0.00484 seconds |
-./spec/controllers/session_controller_spec.rb[1:1:2]            | passed  | 0.00151 seconds |
-./spec/controllers/session_controller_spec.rb[1:1:3]            | passed  | 0.00135 seconds |
-./spec/controllers/session_controller_spec.rb[1:2:1:1]          | passed  | 0.00934 seconds |
-./spec/controllers/session_controller_spec.rb[1:2:2:1]          | passed  | 0.02734 seconds |
-./spec/controllers/session_controller_spec.rb[1:3:1:1]          | passed  | 0.00822 seconds |
-./spec/controllers/session_controller_spec.rb[1:3:2:1]          | passed  | 0.00964 seconds |
-./spec/controllers/session_controller_spec.rb[1:4:1]            | passed  | 0.00444 seconds |
-./spec/controllers/user/chess_games_controller_spec.rb[1:1:1]   | passed  | 0.00269 seconds |
-./spec/controllers/user/chess_games_controller_spec.rb[1:1:2]   | passed  | 0.00129 seconds |
-./spec/controllers/user/chess_games_controller_spec.rb[1:2:1]   | passed  | 0.02613 seconds |
-./spec/controllers/user/chess_games_controller_spec.rb[1:3:1:1] | passed  | 0.03232 seconds |
-./spec/controllers/user/chess_games_controller_spec.rb[1:3:2:1] | pending | 0.00001 seconds |
-./spec/controllers/user/profile_controller_spec.rb[1:1:1]       | passed  | 0.00252 seconds |
-./spec/controllers/user/profile_controller_spec.rb[1:1:2]       | passed  | 0.00105 seconds |
-./spec/controllers/user/profile_controller_spec.rb[1:2:1]       | unknown |                 |
-./spec/controllers/user/profile_controller_spec.rb[1:3:1:1]     | unknown |                 |
-./spec/controllers/user/profile_controller_spec.rb[1:3:2:1]     | unknown |                 |
-./spec/controllers/user/sense_controller_spec.rb[1:1:1]         | passed  | 0.00282 seconds |
-./spec/controllers/user/sense_controller_spec.rb[1:2:1:1]       | passed  | 8 seconds       |
-./spec/models/chess_game_spec.rb[1:1]                           | pending | 0.00001 seconds |
-./spec/models/chess_game_spec.rb[1:2:1:1]                       | failed  | 0.00147 seconds |
-./spec/models/chess_game_spec.rb[1:2:2:1:1]                     | failed  | 0 seconds       |
-./spec/models/chess_game_spec.rb[1:2:2:2:1]                     | failed  | 0 seconds       |
-./spec/models/chess_game_spec.rb[1:2:2:3:1]                     | failed  | 0 seconds       |
-./spec/models/chess_game_spec.rb[1:2:3:1:1]                     | failed  | 0 seconds       |
-./spec/models/chess_game_spec.rb[1:2:3:2:1]                     | failed  | 0 seconds       |
-./spec/models/chess_game_spec.rb[1:2:4:1]                       | failed  | 0.00215 seconds |
-./spec/models/game_position_transition_spec.rb[1:1]             | pending | 0.00001 seconds |
-./spec/models/move_spec.rb[1:1]                                 | pending | 0 seconds       |
-./spec/models/position_spec.rb[1:1]                             | pending | 0 seconds       |
-./spec/models/position_transition_spec.rb[1:1]                  | pending | 0 seconds       |
-./spec/models/user_spec.rb[1:1]                                 | pending | 0 seconds       |
+example_id                                                            | status  | run_time        |
+--------------------------------------------------------------------- | ------- | --------------- |
+./spec/controllers/concerns/needs_authenticated_user_spec.rb[1:1:1]   | passed  | 0.01455 seconds |
+./spec/controllers/concerns/needs_authenticated_user_spec.rb[1:2:1:1] | passed  | 0.00899 seconds |
+./spec/controllers/concerns/needs_authenticated_user_spec.rb[1:2:2:1] | passed  | 0.00467 seconds |
+./spec/controllers/session_controller_spec.rb[1:1:1]                  | passed  | 0.00234 seconds |
+./spec/controllers/session_controller_spec.rb[1:1:2]                  | passed  | 0.00153 seconds |
+./spec/controllers/session_controller_spec.rb[1:1:3]                  | passed  | 0.00121 seconds |
+./spec/controllers/session_controller_spec.rb[1:2:1:1]                | passed  | 0.00397 seconds |
+./spec/controllers/session_controller_spec.rb[1:2:2:1]                | passed  | 0.00541 seconds |
+./spec/controllers/session_controller_spec.rb[1:3:1:1]                | passed  | 0.00857 seconds |
+./spec/controllers/session_controller_spec.rb[1:3:2:1]                | passed  | 0.01027 seconds |
+./spec/controllers/session_controller_spec.rb[1:4:1]                  | passed  | 0.00445 seconds |
+./spec/controllers/user/chess_games_controller_spec.rb[1:1:1]         | passed  | 0.00106 seconds |
+./spec/controllers/user/chess_games_controller_spec.rb[1:1:2]         | passed  | 0.00098 seconds |
+./spec/controllers/user/chess_games_controller_spec.rb[1:1:3]         | passed  | 0.00089 seconds |
+./spec/controllers/user/chess_games_controller_spec.rb[1:1:4]         | passed  | 0.00098 seconds |
+./spec/controllers/user/chess_games_controller_spec.rb[1:2:1]         | passed  | 0.00582 seconds |
+./spec/controllers/user/chess_games_controller_spec.rb[1:3:1]         | failed  | 0.01271 seconds |
+./spec/controllers/user/chess_games_controller_spec.rb[1:4:1:1]       | failed  | 0.00098 seconds |
+./spec/controllers/user/chess_games_controller_spec.rb[1:4:2:1]       | failed  | 0.00386 seconds |
+./spec/controllers/user/chess_games_controller_spec.rb[1:5:1:1]       | passed  | 0.01557 seconds |
+./spec/controllers/user/chess_games_controller_spec.rb[1:5:2:1]       | pending | 0.00001 seconds |
+./spec/controllers/user/profile_controller_spec.rb[1:1:1]             | passed  | 0.00125 seconds |
+./spec/controllers/user/profile_controller_spec.rb[1:1:2]             | passed  | 0.00095 seconds |
+./spec/controllers/user/profile_controller_spec.rb[1:2:1]             | failed  | 0.0034 seconds  |
+./spec/controllers/user/profile_controller_spec.rb[1:3:1:1]           | pending | 0.00001 seconds |
+./spec/controllers/user/profile_controller_spec.rb[1:3:2:1]           | pending | 0 seconds       |
+./spec/controllers/user/sense_controller_spec.rb[1:1:1]               | passed  | 0.00128 seconds |
+./spec/controllers/user/sense_controller_spec.rb[1:2:1:1]             | passed  | 0.00577 seconds |
+./spec/models/chess_game_spec.rb[1:1]                                 | pending | 0.00001 seconds |
+./spec/models/chess_game_spec.rb[1:2:1:1]                             | failed  | 0.00127 seconds |
+./spec/models/chess_game_spec.rb[1:2:2:1:1]                           | failed  | 0 seconds       |
+./spec/models/chess_game_spec.rb[1:2:2:2:1]                           | failed  | 0 seconds       |
+./spec/models/chess_game_spec.rb[1:2:2:3:1]                           | failed  | 0 seconds       |
+./spec/models/chess_game_spec.rb[1:2:3:1:1]                           | failed  | 0 seconds       |
+./spec/models/chess_game_spec.rb[1:2:3:2:1]                           | failed  | 0 seconds       |
+./spec/models/chess_game_spec.rb[1:2:4:1]                             | failed  | 0.00066 seconds |
+./spec/models/game_position_transition_spec.rb[1:1]                   | pending | 0 seconds       |
+./spec/models/move_spec.rb[1:1]                                       | pending | 0 seconds       |
+./spec/models/position_spec.rb[1:1]                                   | pending | 0 seconds       |
+./spec/models/position_transition_spec.rb[1:1]                        | pending | 0 seconds       |
+./spec/models/user_spec.rb[1:1]                                       | pending | 0 seconds       |
+./spec/services/chess_game_upload_handler_spec.rb[1:1:1:1:1]          | passed  | 0.00139 seconds |
+./spec/services/chess_game_upload_handler_spec.rb[1:1:1:2:1]          | passed  | 0.00076 seconds |
+./spec/services/chess_game_upload_handler_spec.rb[1:2:1:1]            | failed  | 0.00238 seconds |

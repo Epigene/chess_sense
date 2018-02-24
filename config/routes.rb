@@ -6,6 +6,6 @@ Rails.application.routes.draw do
   namespace :user do
     resource :sense, controller: 'sense', only: :show
     resource :profile, controller: 'profile', only: [:show, :update]
-    resources :chess_games, only: [:index, :show]
+    resources :chess_games, only: [:index, :new, :create, :show]
   end
 end
