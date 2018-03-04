@@ -29,30 +29,43 @@ describe ChessGameUploadHandler do
   describe "#call" do
     subject(:game_uploading) { described_class.new(params).call }
 
+    let!(:user) { create(:user) }
+    let(:params) { {pgn_lines: pgn, user_id: user.id} }
+
     context "when given a valid PGN for two games" do
-      let(:params) { {pgn_lines: valid_pgn_upload} }
+      let(:pgn) { two_game_pgn_upload }
 
       it "makes two ChessGame records and returns a hash signifying 2 successes" do
         expect{ game_uploading }.to(
           change{ ChessGame.all.size }.by(2)
         )
 
-        expect(game_uploading).to eq({ok: 2})
+        expect(game_uploading).to eq({ok: 2, bad: 0, errors: []})
       end
     end
 
-    context "when given a PGN with with one valid game block and garbled rest" do
-      let(:params) { {pgn_lines: mixed_pgn_upload} }
+    context "when given a PGN with one garbled game and two OKs" do
+      let(:pgn) { mixed_pgn_upload }
 
-      it "makes one ChessGame record and returns a hash signifying the mixed outcome" do
+      it "makes two ChessGame records and returns a hash signifying the mixed outcome" do
         expect{ game_uploading }.to(
           change{ ChessGame.all.size }.by(2)
         )
 
-        expect(game_uploading).to eq({
-          ok: 1, bad: 1,
-          errors: ["test error"]
+        expect(game_uploading).to match({
+          ok: 2, bad: 1,
+          errors: [anything]
         })
+      end
+    end
+
+    context "when given a PGN without blank lines between games" do
+      let(:pgn) { no_blank_lines_pgn_upload }
+
+      it "makes two ChessGame records all the same" do
+        expect{ game_uploading }.to(
+          change{ ChessGame.all.size }.by(2)
+        )
       end
     end
   end

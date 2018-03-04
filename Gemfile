@@ -16,7 +16,9 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 
-gem 'egd', '>= 1.0.1'#, path: "local/egd"
+gem 'egd',
+  #'>= 1.0.1',
+  path: "local/egd"
 gem 'jsonb_accessor', '~> 1.0.0'
 gem 'retryable', '~> 3.0.0'
 

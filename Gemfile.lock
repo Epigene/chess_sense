@@ -1,3 +1,9 @@
+PATH
+  remote: local/egd
+  specs:
+    egd (1.0.2)
+      pgn (~> 0.2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -78,8 +84,6 @@ GEM
     dotenv-rails (2.2.1)
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
-    egd (1.0.1)
-      pgn (~> 0.2.0)
     erubi (1.7.0)
     erubis (2.7.0)
     execjs (2.7.0)
@@ -253,7 +257,7 @@ DEPENDENCIES
   coveralls (~> 0.8.21)
   database_cleaner (~> 1.6.1)
   dotenv-rails (~> 2.2.1)
-  egd (>= 1.0.1)
+  egd!
   factory_bot_rails (~> 4.8.2)
   jbuilder (~> 2.5)
   jsonb_accessor (~> 1.0.0)

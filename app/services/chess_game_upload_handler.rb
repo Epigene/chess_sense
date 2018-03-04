@@ -15,7 +15,7 @@ class ChessGameUploadHandler
     seperate_games.each do |pgn|
       begin
         EgdToDbRecorder.new(pgn, user_id).call
-      rescue
+      rescue => e
         upload_results[:bad] += 1
         upload_results[:errors] << e.message
         next
