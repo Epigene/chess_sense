@@ -13,7 +13,7 @@ class User::ChessGamesController < ApplicationController
 
   # POST /user/chess_games_path | /user/chess_games
   def create
-    uploader = ChessGameUploadHandler.new(game_upload_params)
+    uploader = ChessGameUploadHandler.new(game_upload_params.merge(user_id: current_user.id))
 
     if uploader.valid?
       uploader.call

@@ -2,6 +2,7 @@ class PositionTransition < ApplicationRecord
   belongs_to :start_position, class_name: "Position"
   belongs_to :move
   belongs_to :end_position, class_name: "Position"
+  has_many   :game_position_transitions
 
   validates :start_position_id, :move_id, :end_position_id, presence: true
 end

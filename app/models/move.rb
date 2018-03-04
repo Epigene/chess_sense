@@ -10,7 +10,7 @@ class Move < ApplicationRecord
     long_castle: 5, promotion: 6
   }
 
-  has_many :position_transitions
+  has_many :position_transitions, dependent: :destroy
 
   has_many :game_position_transitions,
     through: :position_transitions

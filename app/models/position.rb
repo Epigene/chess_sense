@@ -1,5 +1,5 @@
 class Position < ApplicationRecord
-  has_many :start_position_transitions,
+  has_many :position_transition_starts,
     class_name: "PositionTransition",
     foreign_key: "start_position_id",
     inverse_of: "start_position",
@@ -11,8 +11,7 @@ class Position < ApplicationRecord
     inverse_of: "end_position",
     dependent: :destroy
 
-  validates :fen, :features, presence: true
-
+  validates :fen, presence: true
 end
 
 # == Schema Information
