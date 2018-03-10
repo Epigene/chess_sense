@@ -41,7 +41,7 @@ RSpec.describe User::ProfileController, type: :controller do
         user: {
           email: "ignored", # counter
           name: "Bob",
-          chess_aliases: ["Bob", "Bobby"],
+          chess_aliases: "b,a\nc",
           password: "super",
           password_confirmation: "super"
         }
@@ -49,31 +49,31 @@ RSpec.describe User::ProfileController, type: :controller do
     end
 
     context "when requested with legit update params" do
-      it "updates the user and redirects to :show with :notice flash" do
+      it "updates the user and redirects to :show with :success flash" do
         expect{ make_request }.to(
           change{ user.reload.name }.to("Bob").
-          and change{ user.reload.chess_aliases }.to(["Bob", "Bobby"]).
+          and change{ user.reload.chess_aliases }.to(["b,a", "c"]).
           and change{ user.reload.password_digest }.
           and not_change{ user.reload.email }
         )
 
         expect(response.location).to match(%r'/user/profile\z')
 
-        expect(flash[:notice]).to be_present
+        expect(flash[:info]).to be_present
       end
     end
 
     context "when update does not succeed" do
       let(:params) { super().deep_merge({user: {password_confirmation: "a"}}) }
 
-      it "does not update the user, renders :show with an :alert flash" do
+      it "does not update the user, renders :show with an :danger flash" do
         expect(controller).to receive(:render).with(
           template: "user/profile/show"
         ).once
 
         expect{ make_request }.to_not change{ user.reload }
 
-        expect(flash[:alert]).to be_present
+        expect(flash[:danger]).to be_present
       end
     end
   end

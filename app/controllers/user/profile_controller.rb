@@ -11,9 +11,9 @@ class User::ProfileController < ApplicationController
     current_user.assign_attributes(user_params)
 
     if current_user.save
-      redirect_to user_profile_path, flash: {notice: "Update successful"}
+      redirect_to user_profile_path, flash: {info: "Update successful"}
     else
-      flash.now[:alert] = "There's errors!"
+      flash.now[:danger] = "There's errors!"
       show
     end
   end
@@ -21,8 +21,14 @@ class User::ProfileController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(
-        :password, :password_confirmation, :name, chess_aliases: []
-      )
+      return @user_params if defined?(@user_params)
+
+      @user_params = params.require(:user).permit(
+        :password, :password_confirmation, :name, :chess_aliases#, chess_aliases: []
+      ).to_h
+
+      split_aliases = @user_params[:chess_aliases].gsub("\r", "").split("\n").uniq.sort
+
+      @user_params.merge!(chess_aliases: split_aliases)
     end
 end

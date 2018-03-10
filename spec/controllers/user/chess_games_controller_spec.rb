@@ -82,7 +82,7 @@ RSpec.describe User::ChessGamesController, type: :controller do
 
         expect(response.location).to match(%r'/user/chess_games')
 
-        expect(flash[:notice]).to be_present
+        expect(flash[:success]).to be_present
       end
     end
 
@@ -99,7 +99,7 @@ RSpec.describe User::ChessGamesController, type: :controller do
         )
       end
 
-      it "renders upload form again with :alert flash about fail" do
+      it "renders upload form again with :danger flash about fail" do
         expect(controller).to(
           receive(:render).with(template: "user/chess_games/new").once
         )
@@ -107,7 +107,7 @@ RSpec.describe User::ChessGamesController, type: :controller do
         make_request
 
         expect(flash[:data]).to be_present
-        expect(flash[:alert]).to be_present
+        expect(flash[:danger]).to be_present
       end
     end
   end
@@ -155,7 +155,7 @@ RSpec.describe User::ChessGamesController, type: :controller do
 
         expect(response.location).to match(%r'')
 
-        expect(flash[:alert]).to be_present
+        expect(flash[:danger]).to be_present
       end
     end
   end

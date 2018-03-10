@@ -1,27 +1,16 @@
 / :login
+
 div.center.jumbotron
   div
     h1 Welcome to ChessSense
-
-    - if login.errors.any?
-      p.red
-        = login.errors.messages[:base].first
 
     = simple_form_for login, url: login_path, method: :post, html: {class: "form-signin login-form"} do |f|
       = f.input :email, label: false, placeholder: "Email", autofocus: true, required: true
       = f.input :password, label: false, placeholder: "Password", required: true
       = f.submit("Log in", class: "btn btn-lg btn-primary btn-block")
-
-    / h2
-    /   |
-    /     This is the home page for the
-    /     <a href="http://www.railstutorial.org/">Ruby on Rails Tutorial</a>
-    /     sample application.  
   
   div.lowered
     <a href="mailto:augusts.bautra@gmail.com?subject=ChessSense account request&body=Hi! Please set me up with an account." target="_top">Request an account</a>
-
-  /= link_to "Sign up now!", '#', class: "btn btn-lg btn-primary"
 
 div
   = link_to image_tag("rails.png", alt: "Rails logo", class: "thanks_logo"), 'http://rubyonrails.org'

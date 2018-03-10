@@ -22,11 +22,11 @@ class User::ChessGamesController < ApplicationController
     if uploader.valid?
       uploader.call
       redirect_to user_chess_games_path, flash: {
-        notice: "Game upload successful"
+        success: "Game upload successful"
       }
     else
       flash.now[:data] = game_upload_params
-      flash.now[:alert] = (
+      flash.now[:danger] = (
         ["Upload unsuccessful"] + uploader.errors.full_messages
       ).join("\n")
 
@@ -50,7 +50,7 @@ class User::ChessGamesController < ApplicationController
 
     def validate_access_to_game
       if game.user != current_user
-        flash[:alert] = "That's someone else's game"
+        flash[:danger] = "That's someone else's game"
         redirect_back(fallback_location: user_chess_games_path)
       end
     end
