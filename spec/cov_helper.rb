@@ -3,6 +3,7 @@ if ENV["USE_COVERALLS"] == "true"
   Coveralls.wear!
 else
   require 'simplecov'
+
   SimpleCov.start do
     add_filter '/spec/'
     add_filter '/config/'
@@ -16,12 +17,13 @@ else
       file.filename[%r'/app/controllers'].present? && file.filename[%r'/app/controllers/concerns'].blank?
     end
 
+    add_group 'Controller Concerns', 'app/controllers/concerns'
+
     add_group 'Models' do |file| #, 'app/models'
       file.filename[%r'/app/models'].present? && file.filename[%r'/app/models/concerns'].blank?
     end
 
     add_group 'Model Concerns', 'app/models/concerns'
-    add_group 'Controller Concerns', 'app/controllers/concerns'
 
     add_group 'Helpers', 'app/helpers'
     add_group 'Jobs', 'app/jobs'

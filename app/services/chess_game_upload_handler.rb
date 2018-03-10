@@ -7,6 +7,7 @@ class ChessGameUploadHandler
 
   attr_accessor :pgn_lines, :user_id
 
+  validates :user_id, presence: true
   validate :pgn_lines_length
 
   def call
@@ -29,7 +30,9 @@ class ChessGameUploadHandler
 
   private
     def pgn_lines_length
-      if pgn_lines.size > 20000
+      if pgn_lines.size <= 3
+        errors.add(:base, "PGN upload too short, paste something!")
+      elsif pgn_lines.size > 20000
         errors.add(:base, "PGN upload too large, keep within 20k symbols")
       end
     end

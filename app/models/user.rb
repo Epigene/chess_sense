@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
 
+  attr_accessor :password_confirmation
+
   jsonb_accessor :data,
     chess_aliases: [:string, array: true, default: []]
 
@@ -12,6 +14,10 @@ class User < ApplicationRecord
     with: %r'\A[^@]+@[^@]+\.[^@]+\z'i, allow_nil: false
   }
 
+  validates :password, format: {
+    with: %r'\A\S{4,}\z'i, allow_nil: true
+  }
+
   validates :password_digest, presence: true
 
   validates :name, presence: true, format: {
@@ -19,6 +25,15 @@ class User < ApplicationRecord
   }
 
   validates :data, presence: true
+
+  validate :password_matches_confirmation
+
+  private
+    def password_matches_confirmation
+      return true if password.blank?
+
+      password.to_s == password_confirmation.to_s
+    end
 end
 
 # == Schema Information

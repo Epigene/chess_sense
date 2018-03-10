@@ -4,8 +4,18 @@ describe ChessGameUploadHandler do
 
   describe "validations" do
     context "pgn_lines_length" do
+      context "when given an upload string that is too damn short" do
+        let(:handler) { described_class.new(pgn_lines: "1.e", user_id: 1) }
+
+        it "adds a validation error" do
+          expect{ handler.valid? }.to(
+            change{ handler.errors.messages[:base].present? }.from(false).to(true)
+          )
+        end
+      end
+
       context "when given an upload string that is longer than 20k symbols" do
-        let(:handler) { described_class.new(pgn_lines: "1" * (6**6)) }
+        let(:handler) { described_class.new(user_id: 1, pgn_lines: "1" * (6**6)) }
 
         it "adds a validation error" do
           expect{ handler.valid? }.to(
@@ -15,7 +25,7 @@ describe ChessGameUploadHandler do
       end
 
       context "when given an upload string within 20k symbols" do
-        let(:handler) { described_class.new(pgn_lines: "1") }
+        let(:handler) { described_class.new(user_id: 1, pgn_lines: "1.e4") }
 
         it "does not add error" do
           expect{ handler.valid? }.to(

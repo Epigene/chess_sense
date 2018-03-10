@@ -2,41 +2,19 @@
 RSpec.describe User::ChessGamesController, type: :controller do
   include ChessHelpers
 
-  describe "routing" do
-    it 'routes GET /user/chess_games' do
-      expect(get: '/user/chess_games').to route_to(
-        controller: 'user/chess_games',
-        action: 'index',
-      )
-    end
-
-    it 'routes GET /user/chess_games/new' do
-      expect(get: '/user/chess_games/new').to route_to(
-        controller: 'user/chess_games',
-        action: 'new',
-      )
-    end
-
-    it 'routes POST /user/chess_games' do
-      expect(post: '/user/chess_games').to route_to(
-        controller: 'user/chess_games',
-        action: 'create',
-      )
-    end
-
-    it 'routes GET /user/chess_games/:id' do
-      expect(get: '/user/chess_games/1').to route_to(
-        controller: 'user/chess_games',
-        action: 'show',
-        id: '1'
-      )
-    end
-  end
+  before { allow_render; log_in_user }
 
   describe "GET :index" do
     subject(:make_request) { get :index }
 
-    before { allow_render; log_in_user }
+    describe "routing" do
+      it 'routes GET /user/chess_games' do
+        expect(get: '/user/chess_games').to route_to(
+          controller: 'user/chess_games',
+          action: 'index',
+        )
+      end
+    end
 
     it "renders the game index view" do
       expect(controller).to(
@@ -50,7 +28,14 @@ RSpec.describe User::ChessGamesController, type: :controller do
   describe "GET :new" do
     subject(:make_request) { get :new }
 
-    before { allow_render; log_in_user }
+    describe "routing" do
+      it 'routes GET /user/chess_games/new' do
+        expect(get: '/user/chess_games/new').to route_to(
+          controller: 'user/chess_games',
+          action: 'new',
+        )
+      end
+    end
 
     it "renders the game upload form view" do
       allow(controller).to(
@@ -66,8 +51,29 @@ RSpec.describe User::ChessGamesController, type: :controller do
   describe "POST :create" do
     subject(:make_request) { post :create, params: params }
 
+    describe "routing" do
+      it 'routes POST /user/chess_games' do
+        expect(post: '/user/chess_games').to route_to(
+          controller: 'user/chess_games',
+          action: 'create',
+        )
+      end
+    end
+
     context "when requested with a legit submit" do
       let(:params) { {chess_game: {pgn_lines: valid_pgn_upload}} }
+
+      let!(:uploader) do
+        instance_double(
+          ChessGameUploadHandler, valid?: true, call: nil
+        )
+      end
+
+      before do
+        allow(ChessGameUploadHandler).to(
+          receive(:new).and_return(uploader)
+        )
+      end
 
       it "calls upload handler and redirects to game index with notice flash" do
         expect(uploader).to receive(:call)
@@ -83,9 +89,17 @@ RSpec.describe User::ChessGamesController, type: :controller do
     context "when requested with invalid params" do
       let(:params) { {chess_game: {pgn_lines: ""}} }
 
-      before { allow_render }
+      let!(:uploader) do
+        ChessGameUploadHandler.new(pgn_lines: "", user_id: 1)
+      end
 
-      it "render upload form again with :alert flash about fail" do
+      before do
+        allow(ChessGameUploadHandler).to(
+          receive(:new).and_return(uploader)
+        )
+      end
+
+      it "renders upload form again with :alert flash about fail" do
         expect(controller).to(
           receive(:render).with(template: "user/chess_games/new").once
         )
@@ -101,6 +115,16 @@ RSpec.describe User::ChessGamesController, type: :controller do
   describe "GET :show" do
     subject(:make_request) { get :show, params: params }
 
+    describe "routing" do
+      it 'routes GET /user/chess_games/:id' do
+        expect(get: '/user/chess_games/1').to route_to(
+          controller: 'user/chess_games',
+          action: 'show',
+          id: '1'
+        )
+      end
+    end
+
     let!(:user) { log_in_user }
     let!(:owned_game) { create(:chess_game, user: user) }
 
@@ -111,7 +135,10 @@ RSpec.describe User::ChessGamesController, type: :controller do
 
       it "renders the game view" do
         expect(controller).to(
-          receive(:render).with(template: "user/chess_games/show").once
+          receive(:render).with(
+            template: "user/chess_games/show",
+            locals: {game: owned_game}
+          ).once
         )
 
         make_request
@@ -123,10 +150,12 @@ RSpec.describe User::ChessGamesController, type: :controller do
 
       let!(:unowned_game) { create(:chess_game) }
 
-      xit "redirects to game index with an alert flash" do
-        expect(0).to(
-          eq(1)
-        )
+      it "redirects to game index with an alert flash" do
+        make_request
+
+        expect(response.location).to match(%r'')
+
+        expect(flash[:alert]).to be_present
       end
     end
   end

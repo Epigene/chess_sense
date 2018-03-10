@@ -1,6 +1,8 @@
 class User::ChessGamesController < ApplicationController
   include NeedsAuthenticatedUser
 
+  before_action :validate_access_to_game, only: :show
+
   # GET user_chess_games_path | /user/chess_games
   def index
     render template: "user/chess_games/index"
@@ -13,7 +15,9 @@ class User::ChessGamesController < ApplicationController
 
   # POST /user/chess_games_path | /user/chess_games
   def create
-    uploader = ChessGameUploadHandler.new(game_upload_params.merge(user_id: current_user.id))
+    uploader = ChessGameUploadHandler.new(
+      game_upload_params.merge(user_id: current_user.id)
+    )
 
     if uploader.valid?
       uploader.call
@@ -32,11 +36,22 @@ class User::ChessGamesController < ApplicationController
 
   # GET user_chess_game_path | /user/chess_games/:id
   def show
-    render template: "user/chess_games/show"
+    render template: "user/chess_games/show", locals: {game: game}
   end
 
   private
     def game_upload_params
       params.require(:chess_game).permit(:pgn_lines)
+    end
+
+    def game
+      @game ||= ChessGame.find(params[:id])
+    end
+
+    def validate_access_to_game
+      if game.user != current_user
+        flash[:alert] = "That's someone else's game"
+        redirect_back(fallback_location: user_chess_games_path)
+      end
     end
 end
