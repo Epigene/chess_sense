@@ -5,15 +5,15 @@ class User::ChessGamesController < ApplicationController
 
   # GET user_chess_games_path | /user/chess_games
   def index
-    render template: "user/chess_games/index"
+    render template: "user/chess_games/index", locals: {games: games}
   end
 
   # GET new_user_chess_game | /user/chess_games/new
   def new
-    render template: "user/chess_games/new"
+    render template: "user/chess_games/new", locals: {uploader: uploader}
   end
 
-  # POST /user/chess_games_path | /user/chess_games
+  # POST user_chess_games_path | /user/chess_games
   def create
     uploader = ChessGameUploadHandler.new(
       game_upload_params.merge(user_id: current_user.id)
@@ -25,10 +25,11 @@ class User::ChessGamesController < ApplicationController
         success: "Game upload successful"
       }
     else
-      flash.now[:data] = game_upload_params
       flash.now[:danger] = (
         ["Upload unsuccessful"] + uploader.errors.full_messages
       ).join("\n")
+
+      @uploader = uploader
 
       new
     end
@@ -40,8 +41,16 @@ class User::ChessGamesController < ApplicationController
   end
 
   private
+    def uploader
+      @uploader ||= ChessGameUploadHandler.new
+    end
+
     def game_upload_params
-      params.require(:chess_game).permit(:pgn_lines)
+      params.require(:chess_game_upload_handler).permit(:pgn_lines)
+    end
+
+    def games
+      @games ||= current_user.chess_games.order(id: :desc).page(params[:page]).per(15)
     end
 
     def game

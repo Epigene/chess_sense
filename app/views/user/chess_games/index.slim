@@ -1,3 +1,8 @@
-h1 ChessGames/index
+/ :games
 
 div.center.jumbotron
+  h1 Your chess games
+
+  = render partial: "user/chess_games/game_row", collection: games, as: :game, spacer_template: "user/chess_games/game_divider"
+
+  / = games.each do ||

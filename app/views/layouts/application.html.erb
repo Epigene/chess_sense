@@ -18,6 +18,7 @@
         <%= link_to "ChessSense", root_path, id: "logo" %>
         <nav>
           <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to "Upload", new_user_chess_game_path %></li>
             <li><%= link_to "Games", user_chess_games_path %></li>
             <li><%= link_to "Profile", user_profile_path %></li>
             <li><%= link_to "Log out", logout_path, method: "delete" %></li>

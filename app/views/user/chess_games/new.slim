@@ -1,1 +1,8 @@
-h1 ChessGames/new
+/ :uploader
+
+div.center.jumbotron
+  h1 Paste PGNs here
+
+  = simple_form_for uploader, url: user_chess_games_path, method: :post, html: {class: "todo"} do |f|
+    = f.input :pgn_lines, as: :text, label: false, placeholder: "Game PGNs here"
+    = f.submit "Upload!", class: "btn btn-lg btn-primary btn-block"
