@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.0'
+ruby '2.5.1'
 
 gem 'rails', '~> 5.2.0.rc1'
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', '>= 1.1.0', '< 2', require: false
 gem 'pg', '~> 0.21' # 1.0.0 not supported by AR yet
 gem 'puma', '~> 3.11'
 
@@ -21,6 +21,7 @@ gem 'kaminari', '~> 1.1.1'
 gem 'egd',
   #'>= 1.0.1',
   path: "local/egd"
+
 gem 'jsonb_accessor', '~> 1.0.0'
 gem 'retryable', '~> 3.0.0'
 

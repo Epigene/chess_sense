@@ -5,6 +5,14 @@ module ChessHelpers
     HEREDOC
   end
 
+  def partially_valid_pgn_upload
+    <<~HEREDOC
+    1. b3 a5 *
+
+    1. b3 b2 b2 b2
+    HEREDOC
+  end
+
   def standart_pgn_upload
     <<~HEREDOC
     [Event "Live Chess"]

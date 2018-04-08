@@ -18,7 +18,10 @@ RSpec.describe User::ChessGamesController, type: :controller do
 
     it "renders the game index view" do
       expect(controller).to(
-        receive(:render).with(template: "user/chess_games/index").once
+        receive(:render).with(
+          template: "user/chess_games/index",
+          locals: anything
+        ).once
       )
 
       make_request
@@ -60,36 +63,10 @@ RSpec.describe User::ChessGamesController, type: :controller do
       end
     end
 
-    context "when requested with a legit submit" do
-      let(:params) { {chess_game: {pgn_lines: valid_pgn_upload}} }
-
-      let!(:uploader) do
-        instance_double(
-          ChessGameUploadHandler, valid?: true, call: nil
-        )
-      end
-
-      before do
-        allow(ChessGameUploadHandler).to(
-          receive(:new).and_return(uploader)
-        )
-      end
-
-      it "calls upload handler and redirects to game index with notice flash" do
-        expect(uploader).to receive(:call)
-
-        make_request
-
-        expect(response.location).to match(%r'/user/chess_games')
-
-        expect(flash[:success]).to be_present
-      end
-    end
-
     context "when requested with invalid params" do
-      let(:params) { {chess_game: {pgn_lines: ""}} }
+      let(:params) { {chess_game_upload_handler: {pgn_lines: ""}} }
 
-      let!(:uploader) do
+      let(:uploader) do
         ChessGameUploadHandler.new(pgn_lines: "", user_id: 1)
       end
 
@@ -101,13 +78,59 @@ RSpec.describe User::ChessGamesController, type: :controller do
 
       it "renders upload form again with :danger flash about fail" do
         expect(controller).to(
-          receive(:render).with(template: "user/chess_games/new").once
+          receive(:render).with(
+            template: "user/chess_games/new",
+            locals: {uploader: anything}
+            ).once
         )
 
         make_request
 
-        expect(flash[:data]).to be_present
         expect(flash[:danger]).to be_present
+      end
+    end
+
+    context "when requested with valid submit params" do
+      let(:uploader) do
+        instance_double(
+          ChessGameUploadHandler, valid?: true, call: result
+        )
+      end
+
+      before do
+        allow(ChessGameUploadHandler).to(
+          receive(:new).and_return(uploader)
+        )
+      end
+
+      context "when submitted upload results in only uploaded games" do
+        let(:params) { {chess_game_upload_handler: {pgn_lines: valid_pgn_upload}} }
+        let(:result) { {ok: 1, bad: 0, errors: []} }
+
+        it "calls upload handler and redirects to game index with :success flash" do
+          expect(uploader).to receive(:call)
+
+          make_request
+
+          expect(response.location).to match(%r'/user/chess_games')
+
+          expect(flash[:success]).to be_present
+        end
+      end
+
+      context "when submitted upload results in at least one error" do
+        let(:params) { {chess_game_upload_handler: {pgn_lines: partially_valid_pgn_upload}} }
+        let(:result) { {ok: 0, bad: 1, errors: ["test error"]} }
+
+        it "calls upload handler and redirects to game index with :danger flash" do
+          expect(uploader).to receive(:call)
+
+          make_request
+
+          expect(response.location).to match(%r'/user/chess_games')
+
+          expect(flash[:danger]).to be_present
+        end
       end
     end
   end

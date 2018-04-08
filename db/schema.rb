@@ -13,9 +13,7 @@
 ActiveRecord::Schema.define(version: 2018_01_27_115903) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "hstore"
   enable_extension "plpgsql"
-  enable_extension "uuid-ossp"
 
   create_table "chess_games", force: :cascade do |t|
     t.datetime "created_at", null: false

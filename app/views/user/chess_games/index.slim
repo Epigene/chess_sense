@@ -3,6 +3,8 @@
 div.center.jumbotron
   h1 Your chess games
 
+div.row.align-items-center
+  div.col
   = render partial: "user/chess_games/game_row", collection: games, as: :game, spacer_template: "user/chess_games/game_divider"
-
-  / = games.each do ||
+  
+= paginate games

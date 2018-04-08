@@ -19,6 +19,10 @@ class ChessGame < ApplicationRecord
   # scope :where_a_queen_trade_initiated_by, ->(player_identifier) {
   #   with_queen_trade.with_first_capture(of: "Q", by: player_identifier)
   # }
+
+  def to_row
+    "#{id}. on #{played_on}, #{white} VS #{black} | #{tags["Result"]}"
+  end
 end
 
 # == Schema Information

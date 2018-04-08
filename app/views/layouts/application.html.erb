@@ -16,14 +16,18 @@
     <header class="navbar navbar-fixed-top navbar-inverse">
       <div class="container">
         <%= link_to "ChessSense", root_path, id: "logo" %>
-        <nav>
-          <ul class="nav navbar-nav navbar-right">
-            <li><%= link_to "Upload", new_user_chess_game_path %></li>
-            <li><%= link_to "Games", user_chess_games_path %></li>
-            <li><%= link_to "Profile", user_profile_path %></li>
-            <li><%= link_to "Log out", logout_path, method: "delete" %></li>
-          </ul>
-        </nav>
+
+        <%- if session[:user_id].present? %>
+          <nav>
+            <ul class="nav navbar-nav navbar-right">
+              <li><%= link_to "Upload", new_user_chess_game_path %></li>
+              <li><%= link_to "Games", user_chess_games_path %></li>
+              <li><%= link_to "Profile", user_profile_path %></li>
+              <li><%= link_to "Log out", logout_path, method: "delete" %></li>
+            </ul>
+          </nav>
+        <%- end %>
+
       </div>
     </header>
 
@@ -36,19 +40,12 @@
       <%= yield %>
 
       <footer class="footer">
+
         <small>
           ChessSense by
           <a href="https://github.com/Epigene">Augusts Bautra</a>
         </small>
-        <!--
-        <nav>
-          <ul>
-            <li><%= link_to "About",   '#' %></li>
-            <li><%= link_to "Contact", '#' %></li>
-            <li><a href="http://news.org/">News</a></li>
-          </ul>
-        </nav>
-        -->
+
       </footer>
     </div>
   </body>

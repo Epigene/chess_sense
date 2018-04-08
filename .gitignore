@@ -25,3 +25,4 @@
 /config/database.yml
 /local
 /coverage
+#/spec/examples.txt
