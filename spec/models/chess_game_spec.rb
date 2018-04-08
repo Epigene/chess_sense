@@ -94,4 +94,12 @@ RSpec.describe ChessGame, type: :model do
     end
 
   end
+
+  describe "#to_row" do
+    let(:game) { create(:chess_game) }
+
+    it "produces a string that represents the game in Games#index rows" do
+      expect(game.to_row).to be_a(String)
+    end
+  end
 end

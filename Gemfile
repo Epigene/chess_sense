@@ -18,6 +18,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 gem 'kaminari', '~> 1.1.1'
 
+# some JQuery for chess board libs
+gem 'jquery-rails', '~> 4.3.1'
+
 gem 'egd',
   #'>= 1.0.1',
   path: "local/egd"
