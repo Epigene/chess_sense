@@ -1,4 +1,51 @@
+/ :sense
 h1 Sense#show
 
-div.center.jumbotron
-  
+div.center.jumbotron  
+  /= form_tag({controller: "user/sense", action: "show"}, method: "get", class: "TODO_form") do
+  = form_for(sense, url: user_sense_path, method: :get, class: "form-horizontal") do
+    / form-group text optional chess_game_upload_handler_pgn_lines
+    = label_tag(:q, "Tell me:")
+    = select_tag(:city_id, options_for_select([['Lisbon', 1], ['Madrid', 2]], 1))
+    = submit_tag("Make sense")
+
+  / <form class="form-horizontal" action="/action_page.php">
+  /   <div class="form-group">
+  /     <label class="control-label col-sm-2" for="email">Email:</label>
+  /     <div class="col-sm-10">
+  /       <input type="email" class="form-control" id="email" placeholder="Enter email">
+  /     </div>
+  /   </div>
+  /   <div class="form-group">
+  /     <label class="control-label col-sm-2" for="pwd">Password:</label>
+  /     <div class="col-sm-10"> 
+  /       <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+  /     </div>
+  /   </div>
+  /   <div class="form-group"> 
+  /     <div class="col-sm-offset-2 col-sm-10">
+  /       <div class="checkbox">
+  /         <label><input type="checkbox"> Remember me</label>
+  /       </div>
+  /     </div>
+  /   </div>
+  /   <div class="form-group"> 
+  /     <div class="col-sm-offset-2 col-sm-10">
+  /       <button type="submit" class="btn btn-default">Submit</button>
+  /     </div>
+  /   </div>
+  / </form>
+   
+
+  / = simple_form_for sense, url: user_profile_path, method: :get do |f|
+  /   = f.input :name, as: :string, placeholder: "Full Name", required: false
+
+  /   = f.input(:chess_aliases, as: :text, label: "Names used in chess games", \
+  /     placeholder: "Chess aliases", \
+  /     input_html: {value: f.object.chess_aliases.join("\n")})
+
+  /   div.p.help-block.p-small Case-sensitive, one per line
+  /   p
+  /   = f.input :password, label: "New password"
+  /   = f.input :password_confirmation
+  /   = f.submit("Update profile", class: "btn btn-lg btn-primary btn-block")

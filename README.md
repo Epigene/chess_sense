@@ -15,30 +15,33 @@ Production runs two processes - Puma webserver and Sidekiq worker, so make sure 
 Currently the app is hosted on Heroku @ TODO.
 
 ## ChessSense querying
-The query interface is modeled somewhat after SQL.  
+The query interface is located in the `Sense` model and is modeled somewhat after SQL.  
 * You have `TELL ME` statements that let you pick an insight you want answered about the given dataset.
 * You have `WHERE` statements that help you select the subset of games you are interested (who played, what opening was used etc.)
 * You have `LOOK AT` statements that let you narrow down the dataset to some count or percent
 
 ## Feature roadmap
 `TELL ME`
-- >[ ] How many games are there? # simple count  
-- >[ ] What are (player)'s win-draw-loss results?  
-- >[ ] What positions occur the most after the (n)th move? # n at least 10
-- >[ ] What are (player)'s piece trade outcomes? (Does (player) capture Rooks/Queen with knight, bishops, what is lost?)  
+- >[ ] "size" | How many games are there? # simple count  
+- >[ ] "results", "Epigene" | What are (player)'s win-draw-loss results?  
+- >[ ] "openings" | What openings are played?
+- >[ ] "queen_captures" | What Queen captures and losses characterize each game from (player)'s perspective?
+- >[ ] "positions", "10" | What positions occur the most after the (n)th move? # n at least 10
+- >[ ] "captures", "Epigene" | What are (player)'s piece capture outcomes? (Does (player) capture Rooks/Queen with knight, bishops, what is lost?)  
 
 `WHERE`
-- >[ ] played on (start_date) - (end_date)
-- >[ ] played by (player) as (white, black, any)
-- >[ ] (player) (won, lost, drew)
-- >[ ] (opening) is played
-- >[ ] (moveset regex) is played # Haard...
-- >[ ] (player) initiates a Queen trade
-- >[ ] (player) trades (piece) for a (piece) # Haaard..
+- >[ ] "played_on", "2018-01-01", "2018-01-31" | played on (start_date) - (end_date)
+- >[ ] "played_by", "Epigene", "any" | played by (player) as (white, black, any)
+- >[ ] "outcome", "Epigene", "drew" | (player) (won, lost, drew)
+- >[ ] "opening", "A00" | (opening (eco code)) is played
+- >[ ] "opening_regex", "TODO" | (moveset regex) is played # Haard...
+- >[ ] "queen_capture", "Epigene", "initiate" | (player) (initiate, take_back, any) a Queen trade
+- >[ ] "capture", "Epigene", "queen", "dark_bishop" | (player) captures (piece) with (piece) # Haaard..
 
 `LOOK AT`
-- >[ ] latest (n) games
-- >[ ] latest (n) percent of games
+- >[ ] "all" | all games # easy default
+- >[ ] "last", "100" | latest (n) games
+- >[ ] "last_percent", "33" | latest (n) percent of games
 
 __GENERAL__
 - >[ ] Users can save query scopes (like `played_by(ereatest_genemy)`)

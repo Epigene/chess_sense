@@ -16,14 +16,28 @@ RSpec.describe User::SenseController, type: :controller do
 
     let(:params) { {} }
 
-    context "when requested" do
+    context "when requested with minimum params" do
+      let(:params) { super().merge(tell_me: "size") }
+
       it "renders the show template" do
         expect(controller).to receive(:render).with(
-          template: "user/sense/show"
+          template: "user/sense/show",
+          locals: {sense_data: anything}
         ).once
 
         make_request
       end
     end
+
+    context "when requested without even minimum params" do
+      it "applies default params and redirects to self" do
+        make_request
+
+        expect(response.location).to match(
+          %r'/user/sense\?tell_me=size'i
+        )
+      end
+    end
+
   end
 end
