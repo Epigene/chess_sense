@@ -5,7 +5,7 @@ class User::SenseController < ApplicationController
 
   # GET user_sense_path | user_sense
   def show
-    sense_data = Sense.new(sense_params).call
+    sense_data = {} # TODO Sense.new(sense_params).call
 
     render template: "user/sense/show", locals: {sense_data: sense_data}
   end

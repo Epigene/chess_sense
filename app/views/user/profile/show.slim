@@ -1,8 +1,11 @@
 div.center.jumbotron
-  = simple_form_for current_user, url: user_profile_path, method: :patch, html: {class: "profile-form"} do |f|
+  = simple_form_for( \
+    current_user, url: user_profile_path, method: :patch, \
+    html: {class: "profile-form"} \
+  ) do |f|
     = f.input :name, as: :string, placeholder: "Full Name", required: false
 
-    = f.input(:chess_aliases, as: :text, label: "Names used in chess games", \
+    = f.input(:chess_aliases, as: :text, label: "Names used in chess games (case sensitive)", \
       placeholder: "Chess aliases", \
       input_html: {value: f.object.chess_aliases.join("\n")})
 

@@ -4,6 +4,12 @@ FactoryBot.define do
     password "test_password"
     name "John Doe"
     data({})
+
+    trait :epigene do
+      email "augusts.bautra@gmail.com"
+      name "Augusts Bautra"
+      data({"chess_aliases" => ["Epigene", "epigene"]})
+    end
   end
 end
 

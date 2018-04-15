@@ -34,6 +34,16 @@ describe EgdToDbRecorder do
     context "when initialized with a drawn game" do
       let(:pgn) { "1. e4 1/2-1/2" }
 
+      it 'marks winner as "\ndraw"' do
+        expect{ calling }.to(
+          change{ ChessGame.where(winner: "\ndraw").size }.by(1)
+        )
+      end
+    end
+
+    context "when initialized with an undecided game" do
+      let(:pgn) { "1. e4 *" }
+
       it "marks winner as '-'" do
         expect{ calling }.to(
           change{ ChessGame.where(winner: "-").size }.by(1)

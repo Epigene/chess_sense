@@ -20,7 +20,21 @@ The query interface is located in the `Sense` model and is modeled somewhat afte
 * You have `WHERE` statements that help you select the subset of games you are interested (who played, what opening was used etc.)
 * You have `LOOK AT` statements that let you narrow down the dataset to some count or percent
 
-## Feature roadmap
+### Limitations
+
+__1. Querying games played by others__  
+Currently you only can query your database games either by all of your nicknames or by one specific nickname (of an opponent.)  
+I could allow defining a list of nicknames of your arch-nemesis in the profile form and then looking up games matching those...  
+
+__2. It is tough defining what a "piece trade" is__  
+Currently for "queen_captures" insight the system assumes that a "trade" is
+a sequence of moves where players each lose a piece of equal value (Bishops equaling Knights) within 3 moves.  
+
+This allows to tell that these were trades (without programming game-situation awareness into queries):
+* a single move queen trade: 8. Qxd8 Kxd8
+* a recapture with a check intermezzo: 8. Qxd8 Bxh2+ (checking the castled white king with a sac) 9. Kh1 (white king steps out of check) Kxd8
+
+### Feature roadmap
 `TELL ME`
 - >[ ] "size" | How many games are there? # simple count  
 - >[ ] "results", "Epigene" | What are (player)'s win-draw-loss results?  
@@ -46,9 +60,3 @@ The query interface is located in the `Sense` model and is modeled somewhat afte
 __GENERAL__
 - >[ ] Users can save query scopes (like `played_by(ereatest_genemy)`)
   
-## Assumptions
-A sequence of moves where players each lose a piece of equal value (Bishops equaling Knights) within 3 moves is considered a "trade".
-
-For example:
-* a single move queen trade: Qxd8 Kxd8
-* a recapture with a check intermezzo: Qxd8 Bxh2+ (checking the castled white king with a sac) Kh1 (white king steps out of check) Kxd8

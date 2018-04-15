@@ -25,7 +25,7 @@ RSpec.configure do |config|
 
   # Database cleaner setup
   config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation, except: %w(ar_internal_metadata))
+    GeneralHelpers.clear_db!
   end
 
   config.before(:each) do

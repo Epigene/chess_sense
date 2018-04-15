@@ -3,51 +3,68 @@ describe Sense do
   describe "#call" do
     subject(:calling) { described_class.new(**options).call }
 
+    let(:options) { {user_id: epigene.id} }
+
     context "when initialized with a :size query" do
+      let(:options) { super().merge(tell_me: ["size"]) }
+
+      let!(:game) { create(:chess_game, user: epigene) }
+      let!(:counter) { create(:chess_game) }
 
       it { is_expected.to eq({size: 1}) }
     end
 
     context "when initialized with a :results query" do
-      before do
+      before(:all) do
         # There's 6 games in total
+
         # Epigene-Rufus 1-0
-        # Rufus-Epigene 1-0
+        # Rufus-epigene 1-0
         # Epigene-Rufus 0-1
         # Rufus-Epigene 1/2-1/2
         # Epigene-Dufus 0-1
         # Rufus-Dufus 0-1
+
+        @g1 = create(:chess_game, user: epigene, white: "Epigene", black: "Rufus", result: "1-0")
+        @g2 = create(:chess_game, user: epigene, white: "Rufus", black: "epigene", result: "1-0")
+        @g3 = create(:chess_game, user: epigene, white: "Epigene", black: "Rufus", result: "0-1")
+        @g4 = create(:chess_game, user: epigene, white: "Rufus", black: "Epigene", result: "1/2-1/2")
+        @g5 = create(:chess_game, user: epigene, white: "Epigene", black: "Dufus", result: "0-1")
+        @g6 = create(:chess_game, user: epigene, white: "Rufus", black: "Dufus", result: "0-1")
+        @g7 = create(:chess_game, user: epigene, white: "Epigene", black: "N/A", result: "*")
       end
 
-      context "when looking from Epigene's perspective" do
-        # let(:) {}
+      after(:all) { clear_db! }
 
-        it { is_expected.to eq({win: 1, draw: 1, loss: 3}) }
+      context "when looking from Epigene's perspective" do
+        let(:options) { super().merge(tell_me: ["results", "\nme"]) }
+
+        it { is_expected.to eq({win: 1, loss: 3, draw: 1, undecided: 1}) }
       end
 
       context "when looking from Rufus' perspective" do
-        # let(:) {}
+        let(:options) { super().merge(tell_me: ["results", "Rufus"]) }
 
-        it { is_expected.to eq({win: 2, draw: 1, loss: 2}) }
+        it { is_expected.to eq({win: 2, draw: 1, loss: 2, undecided: 0}) }
       end
 
       context "when looking from Dufus' perspective" do
-        # let(:) {}
+        let(:options) { super().merge(tell_me: ["results", "Dufus"]) }
 
-        it { is_expected.to eq({win: 2, draw: 0, loss: 0}) }
+        it { is_expected.to eq({win: 2, draw: 0, loss: 0, undecided: 0}) }
       end
     end
 
     context "when initialized with an :openings query" do
 
-      it { is_expected.to eq({:"A01" => 1, :"A10" => 2}) }
+      xit { is_expected.to eq({:"A01" => 1, :"A10" => 2}) }
     end
 
     context "when initialized with a :queen_captures query" do
       # A queen trade in this context is one where a queen capture by one side
-      # is followed by a recapture within 5 moves
+      # is followed by a recapture within 3 moves
 
-      it {
+      xit {
         is_expected.to eq({
           initialized: 1, took_back: 2, outright_capture: 1,
           outright_blunder: 1, no_queen_capturing: 1
@@ -61,18 +78,18 @@ describe Sense do
       context "when looking after 10th move" do
         # let(:) {}
 
-        it { is_expected.to eq({:"SOME_FEN1" => 3, :"SOME_FEN2" => 2}) }
+        xit { is_expected.to eq({:"SOME_FEN1" => 3, :"SOME_FEN2" => 2}) }
       end
 
       context "when looking after 11th move" do
         # let(:) {}
 
-        it { is_expected.to eq({:"SOME_FEN1" => 2}) }
+        xit { is_expected.to eq({:"SOME_FEN1" => 2}) }
       end
     end
 
     context "when initialized with a :captures query" do
-      it {
+      xit {
         is_expected.to eq({
           player: {
             :"pawn-pawn" => 0,

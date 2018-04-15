@@ -4,9 +4,44 @@ FactoryBot.define do
     played_on { Date.today }
     white "Rufus"
     black "Dufus"
-    winner "-"
     pgn "1. e4 e5 *"
-    tags({"Event"=>"Spec"})
+    setting_victor # override by specifying :result
+
+    transient do
+      result { "*" }
+      # won_by { "-" }
+    end
+
+    #== traits below ==
+
+    trait :setting_victor do
+      tags {
+        {"Event"=>"Spec", "Result"=>result}
+      }
+
+      winner {
+        if result == "1-0"
+          white
+        elsif result == "0-1"
+          black
+        elsif result == "1/2-1/2"
+          "\ndraw"
+        else
+          "-"
+        end
+      }
+    end
+
+    trait(:decided) { result { "1-0" } }
+
+    trait :draw do
+      result { "1/2-1/2" }
+    end
+
+    trait :undecided do
+      result { "*" }
+    end
+
   end
 end
 

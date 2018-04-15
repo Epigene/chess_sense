@@ -36,6 +36,8 @@ class EgdToDbRecorder
           white
         elsif egd["game_tags"]["Result"] == "0-1"
           black
+        elsif egd["game_tags"]["Result"] == "1/2-1/2"
+          "\ndraw"
         else
           "-"
         end

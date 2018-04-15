@@ -7,17 +7,34 @@ class Sense
 
   PLAYED_BY_SELF = "\nme".freeze
 
+  ALLOWED_TELL_ME_METHODS = %w|
+    size results openings queen_captures positions captures
+  |.freeze
+
+  ALLOWED_WHERE_SCOPES = %w|
+      played_on played_by outcome opening opening_rege queen_capture capture
+  |.freeze
+
+  ALLOWED_LOOK_AT_SCOPES = %w|all last last_percent|
+
   attr_accessor :user_id, :tell_me, :where, :look_at
 
-  def initialize(user_id:, tell_me:, where: {}, look_at: {})
-    @user_id = user_id
-    @tell_me = tell_me
-    @where = where
-    @look_at = look_at
+  def initialize(user_id:, tell_me: ["size"], where: {}, look_at: ["all"])
+    @user_id = user_id.freeze
+    @tell_me = tell_me.freeze
+    @where = where.freeze
+    @look_at = look_at.freeze
   end
 
   def call
-    # user.chess_games.
+    @call ||=
+      if ALLOWED_TELL_ME_METHODS.include?(tell_me.first.to_s)
+        send(tell_me_method, *tell_me_possible_args)
+      else
+        raise(
+          "Unsupported :tell_me method requested! The arg was '#{tell_me}'"
+        )
+      end
   end
 
   private
@@ -30,19 +47,50 @@ class Sense
     end
 
     def game_scope
-      #return @?? if defined?(@??)
+      return @game_scope if defined?(@game_scope)
 
-      #user.chess_games
+      games = ALLOWED_WHERE_SCOPES.each_with_object(user.chess_games) do |scope, mem|
+        if where.has_key?(scope)
+          possible_args = where[scope].presence || []
+
+          mem.send(scope, *possible_args)
+        end
+      end
+
+      @game_scope =
+        if ALLOWED_LOOK_AT_SCOPES.include?(look_at.first)
+          scope = method_from_array(look_at.dup)
+          possible_args = possible_args_from_array(look_at.dup)
+
+          games.send(scope, *possible_args)
+        else
+          games
+        end
+    end
+
+    def tell_me_method
+      @tell_me_method ||= method_from_array(tell_me.dup)
+    end
+
+    def tell_me_possible_args
+      @tell_me_possible_args ||= possible_args_from_array(tell_me.dup)
     end
 
     # allowed :tell_me scopes
 
     def size
-      # - >[ ] "size" | How many games are there? # simple count
+      {size: game_scope.distinct.size}
     end
 
-    def results
-      # - >[ ] "results", "Epigene" | What are (player)'s win-draw-loss results?
+    def results(*passed_nicks)
+      player = player_nicknames(passed_nicks)
+
+      {
+        win: game_scope.of_outcome(o: "win", for_player: player).distinct.size,
+        loss: game_scope.of_outcome(o: "loss", for_player: player).distinct.size,
+        draw: game_scope.of_outcome(o: "draw", for_player: player).distinct.size,
+        undecided: game_scope.of_outcome(o: "undecided", for_player: player).distinct.size
+      }
     end
 
     def openings
@@ -63,57 +111,24 @@ class Sense
 
     end
 
-    # allowed :where scopes
-
-    def played_on
-      # - >[ ] "played_on", "2018-01-01", "2018-01-31" | played on (start_date) - (end_date)
-
+    # real private
+    def method_from_array(array)
+      array.shift
     end
 
-    def played_by
-      # - >[ ] "played_by", "Epigene", "any" | played by (player) as (white, black, any)
+    def possible_args_from_array(array)
+      array.shift # throw away method
 
+      array # returned left possible args
     end
 
-    def outcome
-     #  - >[ ] "outcome", "Epigene", "drew" | (player) (won, lost, drew)
-
-    end
-
-    def opening
-      # - >[ ] "opening", "A00" | (opening (eco code)) is played
-
-    end
-
-    def opening_regex
-      # - >[ ] "opening_regex", "TODO" | (moveset regex) is played # Haard...
-
-    end
-
-    def queen_capture
-      # - >[ ] "queen_capture", "Epigene", "initiate" | (player) (initiate, take_back, any) a Queen trade
-
-    end
-
-    def capture
-      # - >[ ] "piece_capture", "Epigene", "queen", "dark_bishop" | (player) captures (piece) with (piece) # Haaard..
-
-    end
-
-    # allowed :look_at scopes
-
-    def all
-      # - >[ ] "all" | all games # easy default
-
-    end
-
-    def last
-      # - >[ ] "last", "100" | latest (n) games
-
-    end
-
-    def last_percent
-      # - >[ ] "last_percent", "33" | latest (n) percent of games
-
+    def player_nicknames(player)
+      if player.first == "\nme"
+        # use nicks from config
+        user.chess_aliases
+      else
+        # use unchanged
+        player
+      end
     end
 end
